@@ -18,8 +18,8 @@ const ConnectDevice = () => {
             .then(() => {
                 // Success code
                 console.log('Module initialized')
-            })
-    })
+            });
+    }, []);
 
     useEffect(() => {
         BleManager.enableBluetooth()
@@ -65,7 +65,7 @@ const ConnectDevice = () => {
             BleManager.scan([], 10, false)
                 .then(() => {
                     // Success code
-                    console.log('Scan started')
+                    console.log('Scan started...')
                     setScanning(true)
                 })
                 .catch((error) => {
@@ -120,9 +120,6 @@ const ConnectDevice = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
     },
     rippleView: {
         flex: 1,
@@ -134,17 +131,16 @@ const styles = StyleSheet.create({
         padding: 10,
         alignSelf: "center",
         marginVertical: 10,
-        backgroundColor: Colors.secondary,
+        backgroundColor: '#f2d492',
         elevation: 5,
         borderRadius: 5,
         flexDirection: "row",
         justifyContent: "space-between"
     },
     bleTxt: {
-        // fontFamily: fonts.bold,
         fontSize: 18,
         fontWeight: 'bold',
-        color: Colors.text
+        color: "#2c2c2c"
     },
     btnTxt: {
         fontSize: 18,
@@ -157,7 +153,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 5,
-        backgroundColor: Colors.primary
+        backgroundColor: "#f29559"
     }
 })
 export default ConnectDevice;
