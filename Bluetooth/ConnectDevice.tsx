@@ -1,6 +1,10 @@
 import { NativeAppEventEmitter, NativeEventEmitter, NativeModules, PermissionsAndroid, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import React, { useEffect, useState } from "react"
 import BleManager from 'react-native-ble-manager'
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import { FlatList } from "react-native-gesture-handler"
 import RippleEffect from "./RippleEffect"
 import { Colors } from "react-native/Libraries/NewAppScreen"
@@ -12,6 +16,7 @@ const ConnectDevice = () => {
     const [bleDevices, setDevices] = useState([])
     const BleManagerModule = NativeModules.BleManager
     const BleManagerEmitter = new NativeEventEmitter(BleManagerModule);
+    const [currentDevice, setCurrentDevice] = useState<any>(null);
 
     useEffect(() => {
         BleManager.start({ showAlert: false })
@@ -25,7 +30,7 @@ const ConnectDevice = () => {
         BleManager.enableBluetooth()
             .then(() => {
                 //Success code
-                console.log("The bluetooth is already enabled or the user confirmed");
+                console.log("Bluetooth is turned on!");
                 requestPermission()
             })
             .catch((error) => {
@@ -46,18 +51,13 @@ const ConnectDevice = () => {
     }, [])
 
     const requestPermission = async () => {
-        const granted = await PermissionsAndroid.requestMultiple([
-            PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
-            PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
-            PermissionsAndroid.PERMISSIONS.BLUETOOTH_ADVERTISE,
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-            PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
-        ])
-
-        if (granted) {
-            startScanning()
-        }
-    }
+        await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN);
+        await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT);
+        await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.BLUETOOTH_ADVERTISE);
+        await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION);
+        await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+        // startScanning()
+    };
 
     const startScanning = () => {
         // [UUID], time for scan, if duplicate devices allowed
@@ -91,11 +91,23 @@ const ConnectDevice = () => {
             })
     }
 
+    const onConnect = async (item: any) => {
+        try {
+            await BleManager.connect(item.id);
+            setCurrentDevice(item)
+
+            const result = await BleManager.retrieveServices(item.id);
+            console.log('Result', result);
+        } catch (error) {
+            console.log("Error in connecting", error)
+        }
+    }
+
     const renderItem = ({ item, index }: any) => {
         return (
             <View style={styles.bleCard}>
                 <Text style={styles.bleTxt}>{item.name}</Text>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity onPress={() => onConnect(item)} style={styles.button}>
                     <Text style={styles.btnTxt}>Connect</Text>
                 </TouchableOpacity>
             </View>
@@ -113,6 +125,9 @@ const ConnectDevice = () => {
                     renderItem={renderItem}
                 />
             </View>}
+            <TouchableOpacity onPress={() => startScanning()} style={styles.scanBtn}>
+                <Text style={styles.btnTxt}>Start Scan</Text>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -154,6 +169,16 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         borderRadius: 5,
         backgroundColor: "#f29559"
+    },
+    scanBtn: {
+        width: "90%",
+        height: 50,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#f29559",
+        borderRadius: 5,
+        alignSelf: "center",
+        marginBottom: hp(2)
     }
 })
 export default ConnectDevice;
