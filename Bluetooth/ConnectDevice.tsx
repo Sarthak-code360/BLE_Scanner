@@ -8,6 +8,7 @@ import {
 import { FlatList } from "react-native-gesture-handler"
 import RippleEffect from "./RippleEffect"
 import { Colors } from "react-native/Libraries/NewAppScreen"
+import { AUTH_SERVICE_UUID, BROD_CHAR_UUID, CHAL_CHAR_UUID, SIG_CHAR_UUID } from "./BleConstants";
 
 
 const ConnectDevice = () => {
@@ -98,9 +99,35 @@ const ConnectDevice = () => {
 
             const result = await BleManager.retrieveServices(item.id);
             console.log('Result', result);
+            onServiceDiscovered(result, item)
         } catch (error) {
             console.log("Error in connecting", error)
         }
+    }
+    // Services of R PI
+    const onServiceDiscovered = (result: any, item: any) => {
+
+        const services = result.services
+        const characteristics = result.characteristics
+
+        services.forEach((service: any) => {
+            const serviceUUID = service.uuid
+            onChangeCharacteristics(serviceUUID, characteristics, item)
+        })
+    }
+
+    const onChangeCharacteristics = (serviceUUID: any, result: any, item: any) => {
+        result.forEach((characteristic: any) => {
+            const characteristicUUID = characteristic.characteristic
+
+            if (characteristicUUID === AUTH_SERVICE_UUID || characteristicUUID === BROD_CHAR_UUID || characteristicUUID === SIG_CHAR_UUID || characteristicUUID === CHAL_CHAR_UUID) {
+                BleManager.startNotification(item.id, serviceUUID, characteristicUUID).then(() => {
+                    console.log('Started notification on ' + item.id)
+                }).catch((error) => {
+                    console.log("Error in starting notification", error)
+                })
+            }
+        })
     }
 
     const renderItem = ({ item, index }: any) => {
