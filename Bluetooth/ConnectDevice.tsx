@@ -1,5 +1,7 @@
 import { NativeAppEventEmitter, NativeEventEmitter, NativeModules, PermissionsAndroid, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import React, { useEffect, useState } from "react"
+import { useNavigation } from '@react-navigation/native';
+import HomeScreen from "../Screens/HomeScreen";
 import BleManager from 'react-native-ble-manager'
 import {
     widthPercentageToDP as wp,
@@ -202,10 +204,11 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#f29559",
+        backgroundColor: "#007AFF",
         borderRadius: 5,
         alignSelf: "center",
-        marginBottom: hp(2)
+        marginBottom: hp(2),
+        marginTop: 10
     }
 })
 export default ConnectDevice;
