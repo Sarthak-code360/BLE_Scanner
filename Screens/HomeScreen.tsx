@@ -7,7 +7,7 @@ const HomeScreen = () => {
     const navigation = useNavigation();
     const [authStep, setAuthStep] = useState(0); // 0: initial, 1: authenticating, 2: finished
     const [stepMessage, setStepMessage] = useState('');
-    const [serialNumber, setSerialNumber] = useState('12345-67890');
+    const [serialNumber, setSerialNumber] = useState('AA32-B71Z');
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -30,14 +30,14 @@ const HomeScreen = () => {
                 setStepMessage('Uploading signature and serial number...');
 
                 setTimeout(() => {
-                    setStepMessage('Verifying using public key...');
+                    setStepMessage('Verifying firmware version using public key...');
 
                     setTimeout(() => {
                         setAuthStep(2);
-                    }, 2000);
-                }, 2000);
-            }, 2000);
-        }, 2000);
+                    }, 20000);
+                }, 10000);
+            }, 3000);
+        }, 5000);
     };
 
     return (
