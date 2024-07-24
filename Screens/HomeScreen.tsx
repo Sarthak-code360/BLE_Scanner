@@ -58,6 +58,9 @@ const HomeScreen = () => {
             ) : (
                 <View style={styles.progressContainer}>
                     <Text style={styles.finalMessage}>Device authenticated successfully ✔️</Text>
+                    <TouchableOpacity style={styles.proceedButton} onPress={() => {/* Add your proceed logic here */ }}>
+                        <Text style={styles.buttonText}>Proceed</Text>
+                    </TouchableOpacity>
                 </View>
             )}
         </View>
@@ -123,6 +126,16 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#007AFF',
         textAlign: 'center',
+    },
+    proceedButton: {
+        width: '80%',
+        height: 60,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#007AFF',
+        borderRadius: 10,
+        alignSelf: 'center',
+        marginTop: 20,
     },
 });
 

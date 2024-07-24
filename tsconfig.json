@@ -1,8 +1,23 @@
 {
   "compilerOptions": {
+    "lib": [
+      "es6"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
     "jsx": "react",
-    "strict": true
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noFallthroughCasesInSwitch": true,
+    "typeRoots": [
+      "./node_modules/@types"
+    ]
   },
   "extends": "expo/tsconfig.base"
 }

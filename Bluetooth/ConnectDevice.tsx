@@ -1,6 +1,5 @@
 import { NativeAppEventEmitter, NativeEventEmitter, NativeModules, PermissionsAndroid, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import React, { useEffect, useState } from "react"
-import { useNavigation } from '@react-navigation/native';
 import BleManager from 'react-native-ble-manager'
 import {
     widthPercentageToDP as wp,
@@ -8,7 +7,6 @@ import {
 } from 'react-native-responsive-screen';
 import { FlatList } from "react-native-gesture-handler"
 import RippleEffect from "./RippleEffect"
-import { Colors } from "react-native/Libraries/NewAppScreen"
 import { AUTH_SERVICE_UUID, BROD_CHAR_UUID, CHAL_CHAR_UUID, SIG_CHAR_UUID } from "./BleConstants";
 
 
@@ -199,7 +197,7 @@ const ConnectDevice = () => {
         })
     }
 
-    const onDisconnect = () => {
+    const onDisconnect = (item: any) => {
         BleManager.disconnect(currentDevice?.id)
             .then(() => {
                 setCurrentDevice(null)
