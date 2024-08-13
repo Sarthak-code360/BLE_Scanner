@@ -1,11 +1,17 @@
 To run the code:
 > npm run android
 
-## Permissions to access:
+## Result
+
+### Permissions to access:
+![Bluetooth Access](https://github.com/user-attachments/assets/1660b4f5-c624-451a-bb5c-d365340de526)
+![Location Access](https://github.com/user-attachments/assets/7b454a78-ba39-448a-837f-db4a4cf2f429)
+
+### Bluetooth
+![Scanning](https://github.com/user-attachments/assets/a3721ea8-c804-4910-8f64-3fd3545724a9)
+![Discovered Device](https://github.com/user-attachments/assets/283c20cf-293c-4483-b180-ada76adbd942)
 
 
 
-![image](https://github.com/Sarthak-code360/BLE_Scanner/assets/74900672/b0d2ab58-ad3d-47a1-aeed-676f3d19b67b "Location")
-![image](https://github.com/Sarthak-code360/BLE_Scanner/assets/74900672/c4810240-5d48-4531-b2d6-a04140840af6 "Nearby Devices")
 
 
